@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="horizontal"
+              android:paddingBottom="3dp"
+              android:paddingTop="3dp">
+
+   <ImageView
+      android:id="@+id/rvstub_gundam_iv"
+      android:layout_width="80dp"
+      android:layout_height="80dp"/>
+
+   <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_marginLeft="10dp"
+      android:layout_weight="1"
+      android:gravity="center_vertical"
+      android:orientation="vertical">
+
+      <TextView
+         android:id="@+id/rvstub_gundam_tv_name"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:ellipsize="end"
+         android:maxLines="2"
+         android:textColor="@color/black"
+         android:textSize="16sp"
+         android:textStyle="bold"/>
+
+      <TextView
+         android:id="@+id/rvstub_gundam_tv_price"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="6dp"
+         android:maxLines="1"
+         android:textColor="@color/darkGray"
+         android:textSize="14sp"/>
+
+   </LinearLayout>
+
+</LinearLayout>
