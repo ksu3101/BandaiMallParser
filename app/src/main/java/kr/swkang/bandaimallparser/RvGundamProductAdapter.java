@@ -41,7 +41,8 @@ public class RvGundamProductAdapter
         Picasso.with(context)
                .load(item.getImagePath())
                .fit()
-               .centerCrop()
+               //.centerCrop()
+               .centerInside()
                .into(ivImg);
       }
 

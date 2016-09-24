@@ -20,10 +20,39 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent">
 
+      <LinearLayout
+         android:id="@+id/main_top_selectors_container"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@color/white"
+         android:orientation="horizontal"
+         android:weightSum="10">
+
+         <Button
+            android:id="@+id/main_top_sel_categories"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/btn_top_category"
+            android:maxLines="1"
+            android:textColor="@color/white"/>
+
+         <Button
+            android:id="@+id/main_top_sel_series"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:background="@drawable/btn_top_series"
+            android:maxLines="1"
+            android:textColor="@color/white"/>
+
+      </LinearLayout>
+
       <android.support.v4.widget.SwipeRefreshLayout
          android:id="@+id/main_swiperefresh"
          android:layout_width="match_parent"
-         android:layout_height="match_parent">
+         android:layout_height="match_parent"
+         android:layout_below="@id/main_top_selectors_container">
 
          <kr.swkang.bandaimallparser.utils.widgets.recyclerview.SwRecyclerView
             android:id="@+id/main_rv"
@@ -32,6 +61,8 @@
             android:clipToPadding="false"
             android:scrollbars="vertical"/>
       </android.support.v4.widget.SwipeRefreshLayout>
+
+      <!-- Empty View -->
 
       <LinearLayout
          android:id="@+id/main_emptyview_container"
@@ -69,6 +100,8 @@
             android:textSize="18sp"/>
 
       </LinearLayout>
+
+      <!-- Loading View -->
 
       <LinearLayout
          android:id="@+id/main_loading_container"

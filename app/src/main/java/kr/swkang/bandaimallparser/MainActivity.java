@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -45,6 +46,12 @@ public class MainActivity
   LinearLayout       loadingContainer;
   @BindView(R.id.main_emptyview_container)
   LinearLayout       emptyViewContainer;
+  @BindView(R.id.main_top_selectors_container)
+  LinearLayout       selectorViewContainer;
+  @BindView(R.id.main_top_sel_categories)
+  Button             btnSelectCategories;
+  @BindView(R.id.main_top_sel_series)
+  Button             btnSelectSeries;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +117,18 @@ public class MainActivity
   }
 
   @OnClick(R.id.main_emptyview_btn_refresh)
-  public void onClick(@NonNull View v) {
+  public void onRefreshButtonClicked(@NonNull View v) {
     presenter.retrieveProductList(1, true);
+  }
+
+  @OnClick({R.id.main_top_sel_categories, R.id.main_top_sel_series})
+  public void onSelectorButtonsClicked(@NonNull View v) {
+    if (v.getId() == R.id.main_top_sel_categories) {
+      
+    }
+    else if (v.getId() == R.id.main_top_sel_series) {
+
+    }
   }
 
   @Override
