@@ -19,6 +19,8 @@ import kr.swkang.bandaimallparser.utils.common.SwObservable;
 import kr.swkang.bandaimallparser.utils.mvp.BasePresenter;
 import kr.swkang.bandaimallparser.utils.mvp.BaseView;
 import kr.swkang.bandaimallparser.utils.mvp.model.GunDamProductInfos;
+import kr.swkang.bandaimallparser.utils.mvp.model.GundamBrandCode;
+import kr.swkang.bandaimallparser.utils.mvp.model.GundamSeriesCode;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -39,7 +41,11 @@ public class MainActivityPresenter
     this.lastPageNum = 2;
   }
 
-  public void retrieveProductList(@IntRange(from = 1) int page, final boolean isRefresh) {
+  public void retrieveProductList(
+      @NonNull GundamSeriesCode seriesCode,
+      @NonNull GundamBrandCode brand,
+      @IntRange(from = 1) int page,
+      final boolean isRefresh) {
     if (page > lastPageNum) {
       view.isLastPage();
       return;
@@ -49,10 +55,18 @@ public class MainActivityPresenter
       lastPageNum = 1;
     }
 
+    /*
     final String targetUrl = "http://www.bandaimall.co.kr/display/category.do?method=sgroup&" +
         "category_code=2010102000" +
         "&depth=2&target_name=smenu&menu_cnt=10&on_id=mmenu_2010000000_&mmenu_cnt=10&smenu_cnt=10&orderType=2&" +
         "currentPage=" + (String.valueOf(page)) +
+        "&soldOutFlag=0&pagePerCount=";
+        */
+
+    final String targetUrl = "http://www.bandaimall.co.kr/display/category.do?method=sgroup" +
+        "&category_code=" + brand.getValue() + seriesCode.getValue() +
+        "&depth=2&target_name=smenu&menu_cnt=10&on_id=mmenu_2010000000_&mmenu_cnt=10&smenu_cnt=10&orderType=2" +
+        "&currentPage=" + (String.valueOf(page)) +
         "&soldOutFlag=0&pagePerCount=";
 
     final SwObservable observable = new SwObservable(
