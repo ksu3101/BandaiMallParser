@@ -1,5 +1,6 @@
 package kr.swkang.bandaimallparser;
 
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -34,11 +35,13 @@ public class MainActivityPresenter
     this.view = activity;
   }
 
-  public void retrieveProductList(final boolean isRefresh) {
+  public void retrieveProductList(@IntRange(from = 1) int page, final boolean isRefresh) {
     // TODO : need category code, page number
     final String targetUrl = "http://www.bandaimall.co.kr/display/category.do?method=sgroup&" +
         "category_code=2010102000" +
-        "&depth=2&target_name=smenu&menu_cnt=10&on_id=mmenu_2010000000_&mmenu_cnt=10&smenu_cnt=10&orderType=2&currentPage=1&soldOutFlag=0&pagePerCount=";
+        "&depth=2&target_name=smenu&menu_cnt=10&on_id=mmenu_2010000000_&mmenu_cnt=10&smenu_cnt=10&orderType=2&" +
+        "currentPage=" + (String.valueOf(page)) +
+        "&soldOutFlag=0&pagePerCount=";
 
     final SwObservable observable = new SwObservable(
         this,

@@ -56,13 +56,13 @@ public class MainActivity
     rv.setEmptyView(emptyViewContainer);
 
     presenter = new MainActivityPresenter(this);
-    presenter.retrieveProductList(false);
+    presenter.retrieveProductList(1, false);
 
   }
 
   @OnClick(R.id.main_emptyview_btn_refresh)
   public void onClick(@NonNull View v) {
-    presenter.retrieveProductList(true);
+    presenter.retrieveProductList(1, true);
   }
 
   @Override
