@@ -2,9 +2,11 @@ package kr.swkang.bandaimallparser;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -18,7 +20,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import kr.swkang.bandaimallparser.utils.Utils;
 import kr.swkang.bandaimallparser.utils.mvp.model.GunDamProductInfos;
+import kr.swkang.bandaimallparser.utils.widgets.recyclerview.SwOnScrollListener;
 import kr.swkang.bandaimallparser.utils.widgets.recyclerview.SwRecyclerView;
 
 public class MainActivity
@@ -29,15 +33,18 @@ public class MainActivity
   private MainActivityPresenter  presenter;
   private RvGundamProductAdapter adapter;
   private MenuItem               shareMenuItem;
+  private int                    currentPageOfList;
 
   @BindView(R.id.main_toolbar)
-  Toolbar        toolbar;
+  Toolbar            toolbar;
   @BindView(R.id.main_rv)
-  SwRecyclerView rv;
+  SwRecyclerView     rv;
+  @BindView(R.id.main_swiperefresh)
+  SwipeRefreshLayout swipeRefreshLayout;
   @BindView(R.id.main_loading_container)
-  LinearLayout   loadingContainer;
+  LinearLayout       loadingContainer;
   @BindView(R.id.main_emptyview_container)
-  LinearLayout   emptyViewContainer;
+  LinearLayout       emptyViewContainer;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -45,24 +52,66 @@ public class MainActivity
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
 
+    currentPageOfList = 1;
+
+    // toolbar setup
     setSupportActionBar(toolbar);
 
+    // Swipe refresh layout initializing
+    swipeRefreshLayout.setOnRefreshListener(
+        new SwipeRefreshLayout.OnRefreshListener() {
+          @Override
+          public void onRefresh() {
+            if (presenter != null) {
+              presenter.retrieveProductList(1, false);
+            }
+          }
+        }
+    );
+
+    // RecyclerView setup
     rv.setHasFixedSize(true);
     rv.setLayoutManager(new LinearLayoutManager(this));
 
+    // RV - Adapter setup
     adapter = new RvGundamProductAdapter(this, new ArrayList<GunDamProductInfos>());
     rv.setAdapter(adapter);
 
+    // RV attach OnScroll listener
+    rv.addOnScrollListener(
+        new SwOnScrollListener(this) {
+          @Override
+          public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            if (adapter != null
+                && recyclerView.getLayoutManager() != null
+                && recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+              LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+              if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter.getItemCount() - 1) {
+                // load next page..
+                if (presenter != null) {
+                  Log.d(TAG, "//// start load next page..");
+                  presenter.retrieveProductList(++currentPageOfList, false);
+                }
+              }
+            }
+          }
+        }
+    );
+
+    // RV attach EmptyView on RecyclerView
     rv.setEmptyView(emptyViewContainer);
 
+    // initializing Presenter and retrieve data
     presenter = new MainActivityPresenter(this);
-    presenter.retrieveProductList(false);
+    presenter.retrieveProductList(1, false);
 
   }
 
   @OnClick(R.id.main_emptyview_btn_refresh)
   public void onClick(@NonNull View v) {
-    presenter.retrieveProductList(true);
+    presenter.retrieveProductList(1, true);
   }
 
   @Override
@@ -93,10 +142,16 @@ public class MainActivity
 
   @Override
   public void updateDatas(@NonNull List<GunDamProductInfos> resultList, boolean isRefresh) {
-    Log.d(TAG, "// updateDatas() // resultList.size() = " + resultList.size());
     adapter.setItem(resultList, isRefresh);
+    swipeRefreshLayout.setRefreshing(false);
     setShareMenuVisiblity(adapter.getItemCount() > 0);
-    Log.d(TAG, "// updateDatas() // adapter.size() = " + adapter.getItemCount());
+    Log.d(TAG, "// load completed // resultList.size() = " + resultList.size() + ", isRefresh = " + isRefresh);
+  }
+
+  @Override
+  public void isLastPage() {
+    Utils.showToast(this, "마지막 페이지 입니다.");
+    Log.d(TAG, "// isLastPage()");
   }
 
   public void setShareMenuVisiblity(boolean visiblity) {

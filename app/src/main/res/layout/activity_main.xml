@@ -20,12 +20,18 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent">
 
-      <kr.swkang.bandaimallparser.utils.widgets.recyclerview.SwRecyclerView
-         android:id="@+id/main_rv"
+      <android.support.v4.widget.SwipeRefreshLayout
+         android:id="@+id/main_swiperefresh"
          android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:clipToPadding="false"
-         android:scrollbars="vertical"/>
+         android:layout_height="match_parent">
+
+         <kr.swkang.bandaimallparser.utils.widgets.recyclerview.SwRecyclerView
+            android:id="@+id/main_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"/>
+      </android.support.v4.widget.SwipeRefreshLayout>
 
       <LinearLayout
          android:id="@+id/main_emptyview_container"
