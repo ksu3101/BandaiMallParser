@@ -23,6 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kr.swkang.bandaimallparser.utils.Utils;
 import kr.swkang.bandaimallparser.utils.mvp.model.GunDamProductInfos;
+import kr.swkang.bandaimallparser.utils.mvp.model.GundamBrandCode;
+import kr.swkang.bandaimallparser.utils.mvp.model.GundamSeriesCode;
 import kr.swkang.bandaimallparser.utils.widgets.recyclerview.SwOnScrollListener;
 import kr.swkang.bandaimallparser.utils.widgets.recyclerview.SwRecyclerView;
 
@@ -34,6 +36,8 @@ public class MainActivity
   private MainActivityPresenter  presenter;
   private RvGundamProductAdapter adapter;
   private MenuItem               shareMenuItem;
+  private GundamBrandCode        selectedGundamBrandCode;
+  private GundamSeriesCode       selectedGundamSeriesCode;
   private int                    currentPageOfList;
 
   @BindView(R.id.main_toolbar)
@@ -59,6 +63,9 @@ public class MainActivity
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
 
+    // initialize default parameters
+    selectedGundamBrandCode = GundamBrandCode.ALL;
+    selectedGundamSeriesCode = GundamSeriesCode.ALL;
     currentPageOfList = 1;
 
     // toolbar setup
@@ -70,7 +77,7 @@ public class MainActivity
           @Override
           public void onRefresh() {
             if (presenter != null) {
-              presenter.retrieveProductList(1, false);
+              presenter.retrieveProductList(selectedGundamSeriesCode, selectedGundamBrandCode, 1, false);
             }
           }
         }
@@ -99,7 +106,7 @@ public class MainActivity
                 // load next page..
                 if (presenter != null) {
                   Log.d(TAG, "//// start load next page..");
-                  presenter.retrieveProductList(++currentPageOfList, false);
+                  presenter.retrieveProductList(selectedGundamSeriesCode, selectedGundamBrandCode, ++currentPageOfList, false);
                 }
               }
             }
@@ -112,19 +119,19 @@ public class MainActivity
 
     // initializing Presenter and retrieve data
     presenter = new MainActivityPresenter(this);
-    presenter.retrieveProductList(1, false);
+    presenter.retrieveProductList(selectedGundamSeriesCode, selectedGundamBrandCode, 1, false);
 
   }
 
   @OnClick(R.id.main_emptyview_btn_refresh)
   public void onRefreshButtonClicked(@NonNull View v) {
-    presenter.retrieveProductList(1, true);
+    presenter.retrieveProductList(selectedGundamSeriesCode, selectedGundamBrandCode, 1, false);
   }
 
   @OnClick({R.id.main_top_sel_categories, R.id.main_top_sel_series})
   public void onSelectorButtonsClicked(@NonNull View v) {
     if (v.getId() == R.id.main_top_sel_categories) {
-      
+
     }
     else if (v.getId() == R.id.main_top_sel_series) {
 
