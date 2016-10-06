@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
-          android:enterFadeDuration="100"
-          android:exitFadeDuration="100">
+          android:enterFadeDuration="@integer/def_enter_fade_duration"
+          android:exitFadeDuration="@integer/def_exit_fade_duration">
 
    <!-- Selected Status -->
    <item android:state_selected="true">
