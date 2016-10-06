@@ -12,29 +12,25 @@
    <color name="black">#000000</color>
    <color name="white">#ffffff</color>
 
-   <!-- 15% black dim -->
-   <color name="transparent_light_white">#26ffffff</color>
-   <!-- 70% black dim -->
-   <color name="transparent_heavy_white">#B3ffffff</color>
-   <color name="transparent_medium_white">#40ffffff</color>
-   <color name="transparent_ultra_heavy_white">#F2ffffff</color>
-
-   <!-- 15% black dim -->
-   <color name="transparent_light_black">#26000000</color>
-   <!-- 70% black dim -->
-   <color name="transparent_heavy_black">#B3000000</color>
-   <color name="transparent_medium_black">#40000000</color>
-   <color name="transparent_ultra_heavy_black">#F2000000</color>
+   <color name="red">#F00</color>
+   <color name="blue">#00F</color>
+   <color name="green">#0F0</color>
+   <color name="transparent">@android:color/transparent</color>
 
    <color name="lightlightGray">#F2F2F2</color>
    <color name="lightGray">#bbb</color>
    <color name="gray">#888</color>
    <color name="darkGray">#333</color>
 
-   <color name="red">#F00</color>
-   <color name="blue">#00F</color>
-   <color name="green">#0F0</color>
-   <color name="transparent">@android:color/transparent</color>
+   <color name="transparent_light_white">#26ffffff</color>
+   <color name="transparent_medium_white">#40ffffff</color>
+   <color name="transparent_heavy_white">#B3ffffff</color>
+   <color name="transparent_ultra_heavy_white">#F2ffffff</color>
+
+   <color name="transparent_light_black">#26000000</color>
+   <color name="transparent_medium_black">#40000000</color>
+   <color name="transparent_heavy_black">#B3000000</color>
+   <color name="transparent_ultra_heavy_black">#F2000000</color>
 
    <!-- Flat colors -->
    <color name="flat_emerald">#1abc9c</color>
